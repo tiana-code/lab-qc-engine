@@ -1,0 +1,14 @@
+.gradle/
+build/
+out/
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+CLAUDE.md
+.codex
+.claude/
