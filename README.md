@@ -40,36 +40,6 @@ Percentage change from the most recent previous patient result within a configur
 
 **CAP** accreditation checklists require documented auto-verification logic with audit trails. This engine provides the rule evaluation core; the calling service is responsible for persistence and audit logging.
 
-## Architecture
-
-```mermaid
-flowchart TD
-    A[LabResult + ReferenceRange] --> B[AutoVerifyService]
-    B --> C{RANGE_CHECK}
-    C -- fail --> F[VerifyResult: FAILED]
-    C -- skip --> D
-    C -- pass --> D{DELTA_CHECK}
-    D -- fail --> F
-    D -- skip --> E
-    D -- pass --> E{QC_CHECK}
-    E -- fail --> F
-    E -- pass --> G[VerifyResult: PASSED]
-
-    H[List of QcDataPoint] --> I[WestgardEvaluator]
-    I --> J[Sort by timestamp desc]
-    J --> K[Z-score calculation]
-    K --> L[6 Westgard Rules]
-    L --> M[WestgardResult: violations + accepted]
-
-    N[DeltaCheckRequest] --> O[DeltaCheckService]
-    O --> P{Within time window?}
-    P -- no --> Q[passed: skip]
-    P -- yes --> R[Calculate % change]
-    R --> S{Exceeds threshold?}
-    S -- yes --> T[passed: false]
-    S -- no --> U[passed: true]
-```
-
 ## Package Structure
 
 ```
